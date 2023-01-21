@@ -1,6 +1,9 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { User } from '@prisma/client';
+import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { BookmarkService } from './bookmark.service';
+import { BookmarkDto } from './dto/bookmark.dto';
 
 @UseGuards(JwtGuard)
 @Controller('bookmarks')
@@ -10,28 +13,31 @@ export class BookmarkController {
     
     }
 
+    @Post()
+    create(@GetUser('id') userId: number,  @Body() dto: BookmarkDto){
+        return this.service.createBookmark(userId, dto);
+    }
+
+
     @Get()
-    getBookmarks(){
+    findAll(){
         return this.service.getBookmarks();
     }
 
-    @Post()
-    createBookmark(){
+    
 
-    }
+    // @Get()
+    // getBookmarkById(){
 
-    @Get()
-    getBookmarkById(){
+    // }
 
-    }
+    // @Patch()
+    // update(){
 
-    @Patch()
-    update(){
+    // }
 
-    }
+    // @Delete()
+    // deleteBookmark(){
 
-    @Delete()
-    deleteBookmark(){
-
-    } 
+    // } 
 }
